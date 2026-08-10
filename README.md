@@ -1,5 +1,6 @@
 <div align="center">
-   <img src="preview/pixel weather 2.png" alt="" width="150px">
+   <img src="preview/pixel weather 2.png
+" alt="" width="150px">
 </div> 
 <h1 align="center">
 Pixel Weather 2.0 . currently in design at Figma and is needing some devs
