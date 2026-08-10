@@ -10,16 +10,7 @@ Pixel Weather 2.0 . currently in design at Figma and is needing some devs
       <img src="https://img.shields.io/github/release/PranshulGG/WeatherMaster?style=for-the-badge&color=dbc66e&labelColor=3a3000">
       <br>
       <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge&color=ffb5a0&labelColor=561f0f">
-      <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Downloads&style=for-the-badge&color=aac7ff&labelColor=0a305f">
-      <a href="https://discord.gg/sSW2E4nqmn">
- <img src="https://img.shields.io/discord/1302477023410782229?label=Discord&style=for-the-badge&color=ffb0c8&labelColor=541d32">
-</a>
-
-   </div>
-   <div align="center">
-
-<img src="https://shields.rbtlog.dev/simple/com.pranshulgg.weather_master_app?style=for-the-badge" alt="RB Status">
-   </div>
+      <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Downloads&style=for-the-
 
    <div align="center">
    <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
