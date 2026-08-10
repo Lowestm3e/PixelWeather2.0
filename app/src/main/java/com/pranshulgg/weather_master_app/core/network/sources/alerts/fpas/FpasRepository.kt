@@ -1,15 +1,16 @@
-package com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather
+package com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas
 
 import android.util.Xml
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.model.WmoCapAlert
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.model.FpasCapAlert
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.wmosevereweather.wmoSevereWeatherAlertsMapper
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.fpas.fpasAlertsMapper
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.weatherapi.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
 import com.pranshulgg.weather_master_app.data.repository.AlertRepository
@@ -19,8 +20,9 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import javax.inject.Inject
 
-class WmoSevereWeatherRepository @Inject constructor(
-    private val api: WmoSevereWeatherApi,
+
+class FpasRepository @Inject constructor(
+    private val api: FpasApi,
     private val dao: AlertsDao,
     private val locationsDao: LocationsDao
 ) : AlertRepository {
@@ -43,42 +45,33 @@ class WmoSevereWeatherRepository @Inject constructor(
             else -> {}
         }
 
-        val cqlFilter =
-            "INTERSECTS(wkb_geometry, POINT (${location.latitude} ${location.longitude})) AND row_type NEQ 'BOUNDARY'"
-
         return@withContext try {
 
-            val response = api.fetchAlerts(cqlFilter = cqlFilter)
-
+            val response = api.fetchAlerts(
+                minLat = location.latitude - 0.1,
+                maxLat = location.latitude + 0.1,
+                minLon = location.longitude - 0.1,
+                maxLon = location.longitude + 0.1
+            )
 
             val body = response.body()
                 ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
 
 
-            val alertsWithCap = body.features.filter {
-                it.properties != null
-            }.map { feature ->
-                val url = feature.properties?.capUrl ?: feature.properties?.rLink
+            val alerts = body.mapNotNull {
+                val responseAlert = api.fetchAlertsCap(it)
 
-                val capAlert = if (!url.isNullOrBlank()) {
-                    val responseAlert = api.fetchAlertsXml(url)
-
-                    if (responseAlert.isSuccessful) {
-                        responseAlert.body()?.byteStream()?.use { stream ->
-                            parseAlertXmlBody(stream)
-                        }
-                    } else {
-                        null
+                if (responseAlert.isSuccessful) {
+                    responseAlert.body()?.byteStream()?.use { stream ->
+                        parseAlertXmlBody(stream)
                     }
                 } else {
                     null
                 }
-
-                feature to capAlert
             }
 
 
-            val domain = wmoSevereWeatherAlertsMapper(alertsWithCap, location.id)
+            val domain = fpasAlertsMapper(alerts, location.id)
 
             dao.insertAlerts(
                 domain.map { it.toEntity(location.id) },
@@ -93,12 +86,10 @@ class WmoSevereWeatherRepository @Inject constructor(
         } catch (e: Exception) {
             AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
         }
-
-
     }
 }
 
-private fun parseAlertXmlBody(stream: InputStream): WmoCapAlert {
+private fun parseAlertXmlBody(stream: InputStream): FpasCapAlert {
     val parser = Xml.newPullParser()
     parser.setInput(stream, null)
 
@@ -132,7 +123,7 @@ private fun parseAlertXmlBody(stream: InputStream): WmoCapAlert {
         }
         type = parser.next()
     }
-    return WmoCapAlert(
+    return FpasCapAlert(
         language = language,
         event = event,
         severity = severity,
