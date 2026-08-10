@@ -14,6 +14,10 @@ Pixel Weather 2.0 . currently in design at Figma and is needing some devs
 
    <div align="center">
    <h3>Inspired by the repo "WeatherMaster by PranshulGG.</h3>
+   <div align="center">
+   <h3>Why did I make this?
+      Well it was because recently WeatherMaster was slowly losing its Material 3 Expressive feel, If you were to compare the latest version to 2.7.1 F, well there would be a lot of diffrences some may say the new updates make it clean but I rather prefer the old design, It made it feel like a true TRUE google app, I truly do miss that, And then we have me, I have no experience in coding but is a big fan of Material 3 Expressive. So if you are a dev with somewhat knowledge of it please tell me and make a commit.
+      Expect some small changes.</h3>
 
    </div>
  <div align="center">
