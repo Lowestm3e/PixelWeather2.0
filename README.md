@@ -13,7 +13,7 @@ Pixel Weather 2.0 . currently in design at Figma and is needing some devs
       <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Downloads&style=for-the-
 
    <div align="center">
-   <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
+   <h3>Inspired by the repo "WeatherMaster by PranshulGG.</h3>
 
    </div>
  <div align="center">
