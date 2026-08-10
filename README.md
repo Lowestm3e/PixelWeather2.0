@@ -2,7 +2,7 @@
    <img src="preview/icon.png" alt="" width="150px">
 </div> 
 <h1 align="center">
- WeatherMaster
+Pixel Weather 2.0 . currently in design at Figma and is needing some devs
 </h1>
    <div  align="center">
       <img src="https://img.shields.io/github/license/PranshulGG/WeatherMaster?style=for-the-badge&color=cba6f7&labelColor=302D41">
@@ -110,10 +110,6 @@ _**Feel free to open an issue if you want to request a language**_
 [![lt translation](https://img.shields.io/badge/dynamic/json?color=blue&label=lt&style=flat&logo=crowdin&query=%24.progress.18.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16727791-741419.json)](https://crowdin.com/project/weathermaster)
 [![he translation](https://img.shields.io/badge/dynamic/json?color=blue&label=he&style=flat&logo=crowdin&query=%24.progress.12.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16727791-741419.json)](https://crowdin.com/project/weathermaster)
 
-# ✉️ Contact
-
-For any questions or feedback, feel free to open an issue on GitHub or contact
-pranshul.devmain@gmail.com
 
 # ©️ License
 
